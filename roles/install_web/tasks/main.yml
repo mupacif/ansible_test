@@ -1,0 +1,31 @@
+---
+  - name: 1. install Apache
+    apt: name=apache2 state=present
+    
+  - name: 2. start Apache
+    service: name=apache2 state=running enabled=yes
+
+  - name: php
+    apt: name=php7.0 
+
+  - name: apache php  
+    apt: name=libapache2-mod-php7.0 state=present
+
+  - name: Ensures /var/www/My/ dir exists
+    file: path=/var/www/My state=directory
+
+  - name: 3. install Hello World PHP script
+    copy: src=index.php dest=/var/www/My/index.php mode=0664
+
+  - name: remplacer html par my
+    replace:
+      dest: /etc/apache2/sites-available/000-default.conf
+      regexp: '/var/www/html'
+      replace: '/var/www/My'
+
+  - name : restart apache
+    service: name=apache2 state=restarted
+
+
+
+...

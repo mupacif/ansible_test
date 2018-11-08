@@ -1,0 +1,6 @@
+---
+- name: tutoansible
+  hosts: web
+  remote_user: root
+  roles:
+    - install_web
